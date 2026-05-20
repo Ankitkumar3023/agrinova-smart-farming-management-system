@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  background: #0b1220;
+  color: white;
+  font-family: Arial;
+}
+
+.navbar {
+  padding: 15px;
+  background: #111c2e;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbtns a {
+  background: #22c55e;
+  padding: 6px 12px;
+  margin-left: 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: #162235;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+button {
+  background: #22c55e;
+  color: white;
+  padding: 8px;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+input {
+  padding: 8px;
+  width: 90%;
+}

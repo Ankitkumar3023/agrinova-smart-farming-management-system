@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AgriNova AI</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<a href="/logout/">Logout</a>
+
+<div class="navbar">
+  🌾 AgriNova Smart Farming AI
+</div>
+
+<h2 class="welcome">Welcome, Ankit</h2>
+
+<div class="grid">
+
+<!-- WEATHER -->
+<div class="card">
+  <h3 id="weatherTitle">🌦 Live Weather</h3>
+  <input id="city" placeholder="Enter city">
+  <button id="weatherBtn" onclick="getWeather()">Get Weather</button>
+  <p id="weather"></p>
+</div>
+
+<!-- CROP -->
+<div class="card">
+  <h3 id="cropTitle">🌱 Crop Suggestion</h3>
+  <button id="cropBtn" onclick="getCrop()">Suggest Crop</button>
+  <p id="crop"></p>
+</div>
+
+<!-- DISEASE -->
+<div class="card">
+  <h3 id="diseaseTitle">🦠 Disease Detection</h3>
+  <input type="file">
+  <button id="diseaseBtn" onclick="detectDisease()">Detect</button>
+  <p id="disease"></p>
+</div>
+
+<!-- CHART -->
+<div class="card">
+  <h3 id="chartTitle">📊 Growth Chart</h3>
+  <canvas id="chart"></canvas>
+</div>
+
+<!-- VOICE -->
+<div class="card">
+  <h3 id="voiceTitle">🎤 Voice AI</h3>
+  <button id="voiceBtn" onclick="startVoice()">Start Voice</button>
+  <p id="voice"></p>
+</div>
+
+<!-- LANGUAGE -->
+<div class="card">
+  <h3>🌐 Language</h3>
+  <button onclick="setLang('en')">English</button>
+  <button onclick="setLang('hi')">Hindi</button>
+</div>
+
+<!-- VIDEO -->
+<div class="card">
+  <h3 id="videoTitle">🎥 Guide</h3>
+  <button id="videoBtn" onclick="loadVideo()">Load</button>
+  <iframe id="video" width="100%" height="200"></iframe>
+</div>
+
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
