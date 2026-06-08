@@ -15,6 +15,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Sum, Count, Q, Avg
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.conf import settings
+from django.core.cache import cache
+from django.db.models import Max
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -907,3 +910,68 @@ def ai_crop_scan(request: HttpRequest) -> JsonResponse:
         link="/"
     )
     return _json_ok({"diagnosis": result})
+
+@login_required
+def dashboard_data(request):
+
+    farms = Farm.objects.filter(user=request.user)
+
+    crops = Crop.objects.filter(
+        farm__user=request.user
+    )
+
+    total_revenue = (
+        crops.aggregate(
+            total=Sum("revenue")
+        )["total"] or 0
+    )
+
+    total_production = (
+        crops.aggregate(
+            total=Sum("production")
+        )["total"] or 0
+    )
+
+    return JsonResponse({
+        "farms": farms.count(),
+        "crops": crops.count(),
+        "revenue": total_revenue,
+        "production": total_production,
+    })
+    
+    
+@login_required
+@csrf_exempt
+def ai_chat(request):
+
+    if request.method != "POST":
+        return _json_err("POST required")
+
+    try:
+        body = json.loads(request.body)
+
+        prompt = body.get("message","")
+
+        if not prompt:
+            return _json_err("Message required")
+
+        answer = _call_claude(prompt)
+
+        return _json_ok({
+            "reply": answer
+        })
+
+    except Exception as e:
+        return _json_err(str(e))
+    
+@login_required
+def notification_count(request):
+
+    count = Notification.objects.filter(
+        user=request.user,
+        is_read=False
+    ).count()
+
+    return JsonResponse({
+        "count": count
+    })

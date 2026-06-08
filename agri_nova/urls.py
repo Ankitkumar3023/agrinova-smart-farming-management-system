@@ -1,39 +1,27 @@
-"""
-Main URL Configuration for agri_nova project.
-Includes routing for the core admin site, internal application routes, 
-and static/media file serving.
-"""
-
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    # ==============================================================================
-    # SYSTEM CORE ADMIN
-    # ==============================================================================
-    path("admin/", admin.site.urls),
 
-    # ==============================================================================
-    # APPLICATION ROUTING LAYER (API & DASHBOARD)
-    # ==============================================================================
-    # Seamlessly forwards all routing to your decoupled api/urls.py file
-    path("", include("api.urls")),
+    path("", views.home, name="home"),
+
+    path("login/", views.login_view, name="login"),
+    path("register/", views.register_view, name="register"),
+    path("logout/", views.logout_view, name="logout"),
+
+    path("profile/", views.profile_view, name="profile"),
+
+    path("farms/", views.farms_view, name="farms"),
+    path("add-farm/", views.add_farm, name="add_farm"),
+    path("add-crop/", views.add_crop, name="add_crop"),
+
+    path("weather-page/", views.weather_page, name="weather"),
+    path("market-page/", views.market_page, name="market"),
+    path("schemes-page/", views.schemes_page, name="schemes"),
+
+    path("community/", views.community_page, name="community"),
+    path("post/create/", views.create_post, name="create_post"),
+
+    path("api/weather/", views.weather_api),
+    path("api/market/", views.market_api),
 ]
-
-# ==============================================================================
-# STATIC & MEDIA ASSETS SERVING (DEVELOPMENT ONLY)
-# ==============================================================================
-if settings.DEBUG:
-    # Serve user-uploaded media files (Profile images, crop diagnostic pictures)
-    urlpatterns += static(
-        settings.MEDIA_URL, 
-        document_root=settings.MEDIA_ROOT
-    )
-    
-    # Serve compiled static files (CSS, Javascript framework nodes)
-    urlpatterns += static(
-        settings.STATIC_URL, 
-        document_root=settings.STATIC_ROOT
-    )

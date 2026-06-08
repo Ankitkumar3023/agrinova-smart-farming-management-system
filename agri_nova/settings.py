@@ -1,24 +1,27 @@
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # ==============================================================================
-# SECURITY CONFIGURATION
+# SECURITY
 # ==============================================================================
 
-SECRET_KEY = "django-insecure-your-production-safe-key-here"
+SECRET_KEY = os.getenv(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-agrinova-dev-key"
+)
 
-# Set to False in production environments
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-
+ALLOWED_HOSTS = [
+    "*",
+    "127.0.0.1",
+    "localhost",
+]
 
 # ==============================================================================
-# APPLICATION DEFINITION
+# INSTALLED APPS
 # ==============================================================================
 
 INSTALLED_APPS = [
@@ -28,10 +31,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
-    # Internal Project Apps
-    "api.apps.ApiConfig", 
+
+    # Third Party
+    "rest_framework",
+
+    # Local Apps
+    "api",
 ]
+
+# ==============================================================================
+# MIDDLEWARE
+# ==============================================================================
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -43,13 +53,24 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# CORRECTED: Changed from 'core.urls' to 'agri_nova.urls'
+# ==============================================================================
+# URLS / WSGI
+# ==============================================================================
+
 ROOT_URLCONF = "agri_nova.urls"
+
+WSGI_APPLICATION = "agri_nova.wsgi.application"
+
+# ==============================================================================
+# TEMPLATES
+# ==============================================================================
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -62,12 +83,8 @@ TEMPLATES = [
     },
 ]
 
-# CORRECTED: Changed from 'core.wsgi...' to 'agri_nova.wsgi...'
-WSGI_APPLICATION = "agri_nova.wsgi.application"
-
-
 # ==============================================================================
-# DATABASE ROUTING CONFIGURATION
+# DATABASE
 # ==============================================================================
 
 DATABASES = {
@@ -77,53 +94,90 @@ DATABASES = {
     }
 }
 
-
 # ==============================================================================
-# AUTHENTICATION & PASSWORD VALIDATION
+# PASSWORD VALIDATION
 # ==============================================================================
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
-LOGIN_URL = "login"
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "login"
+# ==============================================================================
+# AUTH SETTINGS
+# ==============================================================================
 
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/login/"
 
 # ==============================================================================
-# INTERNATIONALIZATION (REGIONAL SETTINGS)
+# INTERNATIONALIZATION
 # ==============================================================================
 
 LANGUAGE_CODE = "en-us"
 
-# Configured to Indian Standard Time (IST) to match APMC mandi and regional weather updates
 TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
-
 USE_TZ = True
 
+# ==============================================================================
+# STATIC FILES
+# ==============================================================================
+
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # ==============================================================================
-# STATIC AND MEDIA ASSETS CONFIGURATION (IMAGE UPLOADS & DICTIONARIES)
+# MEDIA FILES
 # ==============================================================================
 
-# Static Asset Configurations
-STATIC_URL = "static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-# Media Asset Configurations (Handles profile avatars, post attachments, and leaf diagnostics)
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
+MEDIA_ROOT = BASE_DIR / "media"
 
 # ==============================================================================
-# SYSTEM AUTO-PRIMARY KEY GENERATION
+# DEFAULT PK
 # ==============================================================================
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ==============================================================================
+# REST FRAMEWORK
+# ==============================================================================
+
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ]
+}
+
+# ==============================================================================
+# API KEYS
+# ==============================================================================
+
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
+
+# ==============================================================================
+# LOGGING
+# ==============================================================================
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+}
