@@ -975,3 +975,35 @@ def notification_count(request):
     return JsonResponse({
         "count": count
     })
+    
+@login_required
+def search_farms(request):
+
+    q = request.GET.get("q","")
+
+    farms = Farm.objects.filter(
+        user=request.user,
+        farm_name__icontains=q
+    )
+
+    data = []
+
+    for farm in farms:
+        data.append({
+            "id": farm.id,
+            "name": farm.farm_name,
+            "location": farm.location
+        })
+
+    return JsonResponse(data, safe=False)
+
+
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def search_farms(request):
+    return JsonResponse({
+        "status": True,
+        "results": []
+    })

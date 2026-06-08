@@ -112,10 +112,5 @@ urlpatterns = [
         name="ai_chat"
     ),
 
-    # ================= FARM SEARCH =================
-    path(
-        "api/search-farms/",
-        views.search_farms,
-        name="search_farms"
-    ),
+    
 ]
