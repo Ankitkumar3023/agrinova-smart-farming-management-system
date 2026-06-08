@@ -1,75 +1,1374 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>AgriNova AI</title>
-<link rel="stylesheet" href="/static/style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriNova AI — Smart Farming SaaS Platform</title>
+  <style>
+    /* ============================================================
+       AGRINOVA AI — MASTER STYLESHEET
+       Themes: green (default) | blue | purple | sunset | mono
+    ============================================================ */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 
+    /* ── CSS VARIABLES (Green Theme Default) ─────────────────── */
+    :root {
+      --bg:         #04090a;
+      --bg2:        #071009;
+      --bg3:        #0a1a10;
+      --surface:    rgba(8,20,14,0.95);
+      --surface2:   rgba(12,28,20,0.90);
+      --border:     rgba(52,211,120,0.10);
+      --border-hi:  rgba(52,211,120,0.30);
+      --green:      #34d978;
+      --green-dark: #16a34a;
+      --green-glow: rgba(52,211,120,0.20);
+      --accent1:    #2dd4bf;
+      --accent2:    #fbbf24;
+      --accent3:    #f87171;
+      --accent4:    #60a5fa;
+      --text:       #e4f0eb;
+      --text-dim:   #7a9e8a;
+      --text-muted: #3d5c48;
+      --sidebar-w:  230px;
+      --topbar-h:   68px;
+      --radius:     16px;
+      --radius-sm:  10px;
+      --font:       'Outfit', system-ui, sans-serif;
+      --mono:       'DM Mono', 'Courier New', monospace;
+      --shadow:     0 8px 32px rgba(0,0,0,0.4);
+      --shadow-lg:  0 16px 56px rgba(0,0,0,0.55);
+    }
+
+    /* ── BLUE THEME ────────────────────────────────────────────── */
+    [data-theme="blue"] {
+      --bg:         #040810;
+      --bg2:        #06101a;
+      --bg3:        #0a1828;
+      --surface:    rgba(8,16,30,0.95);
+      --surface2:   rgba(12,24,42,0.90);
+      --border:     rgba(96,165,250,0.12);
+      --border-hi:  rgba(96,165,250,0.35);
+      --green:      #60a5fa;
+      --green-dark: #2563eb;
+      --green-glow: rgba(96,165,250,0.20);
+      --accent1:    #a78bfa;
+      --accent2:    #fbbf24;
+      --accent3:    #f87171;
+      --accent4:    #34d978;
+      --text:       #e0eeff;
+      --text-dim:   #6a90b8;
+      --text-muted: #334a6a;
+    }
+
+    /* ── PURPLE THEME ──────────────────────────────────────────── */
+    [data-theme="purple"] {
+      --bg:         #07040f;
+      --bg2:        #100818;
+      --bg3:        #180c28;
+      --surface:    rgba(16,8,28,0.95);
+      --surface2:   rgba(24,12,42,0.90);
+      --border:     rgba(167,139,250,0.12);
+      --border-hi:  rgba(167,139,250,0.35);
+      --green:      #a78bfa;
+      --green-dark: #7c3aed;
+      --green-glow: rgba(167,139,250,0.20);
+      --accent1:    #f472b6;
+      --accent2:    #fbbf24;
+      --accent3:    #f87171;
+      --accent4:    #60a5fa;
+      --text:       #ede8ff;
+      --text-dim:   #9070c0;
+      --text-muted: #4a3068;
+    }
+
+    /* ── SUNSET THEME ──────────────────────────────────────────── */
+    [data-theme="sunset"] {
+      --bg:         #0f0804;
+      --bg2:        #1a0e06;
+      --bg3:        #281408;
+      --surface:    rgba(28,14,6,0.95);
+      --surface2:   rgba(42,20,8,0.90);
+      --border:     rgba(251,146,60,0.12);
+      --border-hi:  rgba(251,146,60,0.35);
+      --green:      #fb923c;
+      --green-dark: #c2410c;
+      --green-glow: rgba(251,146,60,0.20);
+      --accent1:    #fbbf24;
+      --accent2:    #f87171;
+      --accent3:    #a78bfa;
+      --accent4:    #60a5fa;
+      --text:       #fff1e8;
+      --text-dim:   #a87050;
+      --text-muted: #5a3828;
+    }
+
+    /* ── MONO THEME ────────────────────────────────────────────── */
+    [data-theme="mono"] {
+      --bg:         #080808;
+      --bg2:        #0f0f0f;
+      --bg3:        #161616;
+      --surface:    rgba(14,14,14,0.97);
+      --surface2:   rgba(20,20,20,0.95);
+      --border:     rgba(255,255,255,0.08);
+      --border-hi:  rgba(255,255,255,0.25);
+      --green:      #e0e0e0;
+      --green-dark: #a0a0a0;
+      --green-glow: rgba(255,255,255,0.10);
+      --accent1:    #b0b0b0;
+      --accent2:    #d0d0d0;
+      --accent3:    #909090;
+      --accent4:    #c0c0c0;
+      --text:       #f0f0f0;
+      --text-dim:   #888888;
+      --text-muted: #444444;
+    }
+
+    /* ── RESET & BASE ──────────────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: var(--font);
+      background:  var(--bg);
+      color:       var(--text);
+      overflow-x:  hidden;
+      min-height:  100vh;
+      position:    relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 55% 45% at 12% 18%, var(--green-glow) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 55% at 88% 80%, rgba(45,212,191,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 35% at 50% 105%, var(--green-glow) 0%, transparent 55%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset:0; z-index:0; pointer-events:none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.5;
+    }
+
+    ::-webkit-scrollbar { width:5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--bg3); border-radius:4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--green); }
+
+    /* ── SIDEBAR ───────────────────────────────────────────────── */
+    .sidebar {
+      position: fixed; top:0; left:0; z-index:500;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: rgba(4,9,10,0.97);
+      backdrop-filter: blur(24px);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction:column; gap:2px;
+      padding: 22px 12px;
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+    .sidebar-logo { padding: 0 6px; margin-bottom: 26px; }
+    .sidebar-logo-name { font-family: var(--mono); font-size: 13px; font-weight:700; color: var(--green); letter-spacing: 3px; }
+    .sidebar-logo-sub { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 2px; text-transform:uppercase; margin-top: 2px; }
+    .sidebar-logo-line { margin-top: 10px; height:1px; background: linear-gradient(90deg, var(--green) 0%, transparent 100%); opacity: 0.4; }
+    .sidebar-section-label { font-family: var(--mono); font-size: 9px; color: var(--text-muted); letter-spacing: 2px; text-transform:uppercase; padding: 0 6px; margin: 10px 0 4px; }
+    
+    .nav-link {
+      display: flex; align-items:center; gap:10px; padding: 10px 14px; border-radius: var(--radius-sm);
+      cursor: pointer; font-size:13px; font-weight:500; color: var(--text-dim); border: 1px solid transparent;
+      transition: all 0.2s ease; text-decoration: none; user-select: none; position: relative;
+    }
+    .nav-link:hover { color: var(--green); background: var(--green-glow); border-color: var(--border); transform: translateX(3px); }
+    .nav-link.active { color: #000; background: linear-gradient(135deg, var(--green), var(--green-dark)); border-color: transparent; font-weight: 700; }
+    .nav-link .nav-icon { font-family: var(--mono); font-size: 14px; line-height:1; flex-shrink:0; }
+    .nav-link .nav-badge { margin-left: auto; background: var(--accent3); color: #fff; font-size:9px; font-weight:700; padding: 2px 6px; border-radius:10px; }
+    
+    .sidebar-user { margin-top: auto; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--green-glow); border: 1px solid var(--border); }
+    .sidebar-user-row { display:flex; align-items:center; gap:10px; }
+    .sidebar-avatar { width:30px; height:30px; border-radius:50%; background: linear-gradient(135deg, var(--green), var(--accent1)); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:#000; flex-shrink:0; }
+    .sidebar-user-name { font-size:13px; font-weight:700; color:var(--text); line-height:1.2; }
+    .sidebar-user-role { font-family:var(--mono); font-size:9px; color:var(--green); letter-spacing:1px; }
+
+    /* ── TOPBAR ────────────────────────────────────────────────── */
+    .topbar {
+      position: fixed; top:0; right:0; z-index:400; left: var(--sidebar-w); height: var(--topbar-h);
+      background: rgba(4,9,10,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+      display: flex; align-items:center; justify-content: space-between; padding: 0 28px; gap: 16px;
+    }
+    .topbar-breadcrumb { font-family: var(--mono); font-size: 10px; color:var(--text-muted); letter-spacing:2px; margin-bottom:3px; }
+    .topbar-title { font-size:20px; font-weight:800; color:var(--text); }
+    .topbar-right { display:flex; align-items:center; gap:10px; }
+    .topbar-search { display:flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 14px; transition:border 0.2s; }
+    .topbar-search:focus-within { border-color:var(--border-hi); }
+    .topbar-search input { background:transparent; border:none; outline:none; color:var(--text); font-family:var(--font); font-size:13px; width:160px; }
+    .topbar-search input::placeholder { color:var(--text-muted); }
+    .topbar-icon-btn { width:38px; height:38px; border-radius:var(--radius-sm); background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:16px; transition:all 0.2s; position:relative; }
+    .topbar-icon-btn:hover { border-color:var(--border-hi); }
+    .topbar-icon-btn .notif-dot { position:absolute; top:6px; right:6px; width:8px; height:8px; border-radius:50%; background:var(--accent3); border:2px solid var(--bg); }
+    .topbar-live { padding:7px 14px; border-radius:var(--radius-sm); background:var(--surface); border:1px solid var(--border); font-family:var(--mono); font-size:11px; color:var(--green); letter-spacing:1px; display:flex; align-items:center; gap:6px; }
+    .topbar-profile-chip { display:flex; align-items:center; gap:8px; padding:6px 12px; border-radius:var(--radius-sm); background:var(--surface); border:1px solid var(--border); cursor:pointer; transition:border 0.2s; }
+    .topbar-profile-chip:hover { border-color:var(--border-hi); }
+    .topbar-profile-name { font-size:13px; font-weight:700; color:var(--text); }
+    .menu-toggle { display: none; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); padding: 8px; cursor: pointer; }
+
+    /* Theme switcher */
+    .theme-switcher { display:flex; gap:5px; padding:5px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); }
+    .theme-btn { width:22px; height:22px; border-radius:5px; cursor:pointer; border:2px solid transparent; transition:all 0.2s; flex-shrink:0; }
+    .theme-btn.active { border-color: var(--text); transform:scale(1.1); }
+    .theme-btn[data-t="green"]  { background:#34d978; }
+    .theme-btn[data-t="blue"]   { background:#60a5fa; }
+    .theme-btn[data-t="purple"] { background:#a78bfa; }
+    .theme-btn[data-t="sunset"] { background:#fb923c; }
+    .theme-btn[data-t="mono"]   { background:#909090; }
+
+    /* ── MAIN CONTENT & APP WRAP ───────────────────────────────── */
+    #app { display: none; }
+    .main { margin-left: var(--sidebar-w); padding-top: var(--topbar-h); min-height: 100vh; position: relative; z-index:1; }
+    .page { padding: 28px 30px; display: none; animation: fadeUp 0.4s ease both; }
+    .page.active { display:block; }
+
+    /* ── CARDS & GRID LAYOUTS ──────────────────────────────────── */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; transition: all 0.25s ease; position: relative; overflow:hidden; }
+    .card:hover { border-color: var(--border-hi); transform: translateY(-3px); box-shadow: var(--shadow); }
+    .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .grid-2-1 { display:grid; grid-template-columns:2fr 1fr; gap:16px; }
+    .grid-1-2 { display:grid; grid-template-columns:1fr 2fr; gap:16px; }
+    .span-2 { grid-column:span 2; }
+    .span-3 { grid-column:span 3; }
+    .mb-16 { margin-bottom:16px; }
+    .mb-20 { margin-bottom:20px; }
+    .mb-24 { margin-bottom:24px; }
+
+    /* ── CORE COMPONENT UI ─────────────────────────────────────── */
+    .section-label { font-family: var(--mono); font-size: 9px; letter-spacing:2px; text-transform:uppercase; color: var(--text-muted); margin-bottom:12px; }
+    .section-title { font-size:16px; font-weight:700; color:var(--text); margin-bottom:6px; }
+    .tag { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:0.5px; font-family:var(--font); }
+    .tag-green  { background:rgba(52,211,120,0.12); color:var(--green); border:1px solid rgba(52,211,120,0.22); }
+    .tag-amber  { background:rgba(251,191,36,0.12);  color:var(--accent2); border:1px solid rgba(251,191,36,0.22); }
+    .tag-red    { background:rgba(248,113,113,0.12); color:var(--accent3); border:1px solid rgba(248,113,113,0.22); }
+    .tag-blue   { background:rgba(96,165,250,0.12);  color:var(--accent4); border:1px solid rgba(96,165,250,0.22); }
+    .tag-teal   { background:rgba(45,212,191,0.12);  color:var(--accent1); border:1px solid rgba(45,212,191,0.22); }
+    .tag-purple { background:rgba(167,139,250,0.12); color:#a78bfa;        border:1px solid rgba(167,139,250,0.22); }
+
+    /* Buttons */
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:10px 20px; border-radius:var(--radius-sm); font-family:var(--font); font-size:13px; font-weight:700; cursor:pointer; border:none; transition:all 0.2s ease; white-space:nowrap; }
+    .btn-primary { background:linear-gradient(135deg, var(--green), var(--green-dark)); color:#000; box-shadow:0 4px 20px var(--green-glow); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px var(--green-glow); }
+    .btn-ghost { background:transparent; color:var(--text-dim); border:1px solid var(--border); }
+    .btn-ghost:hover { border-color:var(--border-hi); color:var(--green); }
+    .btn-danger { background:rgba(248,113,113,0.12); color:var(--accent3); border:1px solid rgba(248,113,113,0.22); }
+    .btn-danger:hover { background:rgba(248,113,113,0.22); }
+    .btn-full { width:100%; }
+    .btn-sm { padding:7px 14px; font-size:12px; }
+
+    /* Inputs */
+    .input-field, .select-field, .textarea-field { width:100%; padding:11px 14px; background:rgba(4,9,10,0.85); border:1px solid rgba(52,211,120,0.15); border-radius:var(--radius-sm); color:var(--text); font-family:var(--font); font-size:13.5px; outline:none; transition:border 0.2s; }
+    .input-field:focus, .select-field:focus, .textarea-field:focus { border-color: rgba(52,211,120,0.45); }
+    .input-field::placeholder, .textarea-field::placeholder { color:var(--text-muted); }
+    .form-label { font-family:var(--mono); font-size:9px; color:var(--text-muted); letter-spacing:1.5px; text-transform:uppercase; display:block; margin-bottom:6px; }
+    .form-group { margin-bottom:14px; }
+
+    /* Hero Banner */
+    .hero-banner { border-radius:20px; padding:44px 52px; margin-bottom:22px; background:linear-gradient(125deg, var(--bg2) 0%, var(--bg3) 100%); border:1px solid var(--border-hi); position:relative; overflow:hidden; }
+    .hero-banner::after { content:''; position:absolute; right:-80px; top:-80px; width:380px; height:380px; border-radius:50%; pointer-events:none; background:radial-gradient(circle, var(--green-glow) 0%, transparent 65%); }
+    .hero-content { position:relative; z-index:2; max-width:600px; }
+    .hero-badge { display:inline-flex; align-items:center; gap:6px; background:var(--green-glow); border:1px solid var(--border-hi); border-radius:40px; padding:5px 14px; font-size:11px; font-weight:600; color:var(--green); letter-spacing:0.5px; margin-bottom:16px; }
+    .hero-title { font-size:46px; font-weight:900; line-height:1.05; letter-spacing:-1.5px; margin-bottom:10px; }
+    .hero-title span { color:var(--green); }
+    .hero-desc { font-size:14px; color:var(--text-dim); line-height:1.75; max-width:480px; margin-bottom:22px; }
+
+    /* Stats & Custom Charts */
+    .stat-card { cursor:default; }
+    .stat-icon { font-family:var(--mono); font-size:22px; margin-bottom:10px; line-height:1; }
+    .stat-label { font-family:var(--mono); font-size:9px; color:var(--text-muted); letter-spacing:2px; margin-bottom:6px; }
+    .stat-value { font-size:30px; font-weight:900; line-height:1; margin-bottom:4px; }
+    .stat-sub { font-size:12px; color:var(--text-dim); }
+    .bar-chart { display:flex; align-items:flex-end; gap:8px; height:180px; padding-top:12px; }
+    .bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .bar-val { font-family:var(--mono); font-size:9px; color:var(--text-muted); }
+    .bar-body { width:100%; border-radius:5px 5px 2px 2px; transition:height 0.7s ease; }
+    .bar-lbl { font-family:var(--mono); font-size:9px; color:var(--text-dim); }
+    .sparkline { width:100%; background: transparent; }
+
+    /* Feeds & Data Tables */
+    .activity-item { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid rgba(52,211,120,0.05); }
+    .activity-dot { width:7px; height:7px; border-radius:50%; margin-top:5px; flex-shrink:0; background: var(--green); }
+    .activity-text { flex:1; font-size:13px; color:var(--text); line-height:1.5; }
+    .activity-time { font-family:var(--mono); font-size:9px; color:var(--text-muted); white-space:nowrap; }
+    .data-table { width:100%; border-collapse:collapse; }
+    .data-table th { font-family:var(--mono); font-size:9px; color:var(--text-muted); letter-spacing:1.5px; text-align:left; padding:10px 12px; border-bottom:1px solid var(--border); }
+    .data-table td { padding:11px 12px; border-bottom:1px solid rgba(52,211,120,0.05); font-size:13px; }
+    .data-table tr:hover td { background:var(--green-glow); }
+
+    /* Weather Intelligence CSS */
+    .weather-big-temp { font-size:56px; font-weight:900; color:var(--green); line-height:1; }
+    .weather-desc { font-size:16px; color:var(--text-dim); margin-top:4px; }
+    .weather-meta-row { display:flex; gap:12px; margin-top:16px; flex-wrap:wrap; }
+    .weather-meta-item { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:var(--radius-sm); background:var(--surface2); border:1px solid var(--border); font-size:13px; }
+    .weather-forecast-row { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-top:16px; }
+    .forecast-day { text-align:center; padding:12px 6px; border-radius:var(--radius-sm); border:1px solid var(--border); background:var(--surface2); }
+    .forecast-day-name { font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-bottom:8px; }
+    .forecast-day-icon { font-size:22px; margin-bottom:6px; }
+    .forecast-day-hi { font-size:14px; font-weight:700; }
+
+    /* Community System & Market Cards */
+    .community-wrap { display:grid; grid-template-columns:2fr 1fr; gap:18px; }
+    .feed-card { margin-bottom:14px; }
+    .feed-user-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .feed-avatar { width:38px; height:38px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg, var(--green), var(--accent1)); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:15px; color:#000; }
+    .feed-username { font-size:14px; font-weight:700; }
+    .feed-time { font-family:var(--mono); font-size:10px; color:var(--text-muted); }
+    .feed-caption { font-size:13.5px; line-height:1.75; margin-bottom:14px; }
+    .feed-actions { display:flex; gap:8px; align-items:center; }
+    .market-crop { font-size:15px; font-weight:700; }
+    .market-price { font-family:var(--mono); font-size:22px; font-weight:700; margin-bottom:2px; }
+    .market-unit { font-family:var(--mono); font-size:9px; color:var(--text-muted); letter-spacing:1px; }
+    .scheme-card { cursor:pointer; }
+    .scheme-icon { font-size:28px; margin-bottom:10px; }
+    .scheme-name { font-size:14px; font-weight:700; margin:4px 0; }
+    .scheme-benefit { font-size:12px; color:var(--text-dim); margin-bottom:12px; }
+
+    /* AI Output Box Layout */
+    .ai-result { margin-top:14px; padding:16px; background:var(--green-glow); border:1px solid var(--border-hi); border-radius:var(--radius-sm); font-size:13.5px; line-height:1.75; display: none; }
+    .ai-result-label { font-family:var(--mono); font-size:9px; color:var(--green); letter-spacing:2px; margin-bottom:8px; }
+    .ai-typing::after { content:'▌'; animation:blink 1s step-end infinite; color:var(--green); }
+    .skeleton-line { height:10px; border-radius:4px; margin-bottom:8px; background:linear-gradient(90deg, var(--surface) 0%, var(--surface2) 50%, var(--surface) 100%); background-size:400px 100%; animation:shimmer 1.5s infinite; }
+    .crop-reco-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .crop-reco-card { padding:18px; border-radius:var(--radius-sm); background:var(--surface2); border:1px solid var(--border); }
+    .crop-reco-name { font-size:15px; font-weight:700; }
+    .crop-reco-meta { font-size:12px; color:var(--text-dim); line-height:1.7; margin-top:6px; }
+
+    /* Modals & Toasts UI Components */
+    .modal-overlay { position:fixed; inset:0; z-index:900; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.25s; }
+    .modal-overlay.open { opacity:1; pointer-events:all; }
+    .modal { background:var(--bg2); border:1px solid var(--border-hi); border-radius:20px; padding:30px; width:100%; max-width:520px; max-height:85vh; overflow-y:auto; transform:translateY(20px); transition:transform 0.25s; }
+    .modal-overlay.open .modal { transform:translateY(0); }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+    .modal-title { font-size:18px; font-weight:800; }
+    .modal-close { background:none; border:none; color:var(--text-muted); font-size:20px; cursor:pointer; }
+    .toast-container { position:fixed; bottom:24px; right:24px; z-index:1000; display:flex; flex-direction:column; gap:8px; }
+    .toast { padding:13px 18px; border-radius:var(--radius-sm); background:var(--surface); border:1px solid var(--border-hi); font-size:13px; min-width:240px; box-shadow:var(--shadow); display:flex; align-items:center; gap:10px; animation:slideInRight 0.3s ease; }
+    .toast.success { border-color:rgba(52,211,120,0.4); }
+    .toast.error { border-color:rgba(248,113,113,0.4); }
+    .spinner { width:14px; height:14px; border-radius:50%; border:2px solid var(--border-hi); border-top-color:var(--green); animation:spin 0.8s linear infinite; display:inline-block; vertical-align: middle; }
+
+    /* Auth Framework Layout */
+    .auth-page { min-height:100vh; display:flex; align-items:center; justify-content:center; padding: 20px; }
+    .auth-card { background:var(--surface); border:1px solid var(--border-hi); border-radius:20px; padding:36px; width:100%; max-width:400px; }
+    .auth-logo { text-align:center; margin-bottom:24px; }
+    .auth-logo-name { font-family:var(--mono); font-size:20px; color:var(--green); letter-spacing:4px; font-weight: 700; }
+    .auth-title { font-size:24px; font-weight:900; text-align:center; margin-bottom:6px; }
+    .auth-sub { font-size:13px; color:var(--text-dim); text-align:center; margin-bottom:24px; }
+
+    /* Animations & Media Rules */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @keyframes shimmer { 0% { background-position:-400px 0; } 100% { background-position:400px 0; } }
+    @keyframes blink { 0%,100%{ opacity:1; } 50%{ opacity:0; } }
+    @keyframes slideInRight { from{ transform:translateX(60px); opacity:0; } to{ transform:translateX(0); opacity:1; } }
+
+    @media (max-width:1200px) { .grid-4 { grid-template-columns:repeat(2,1fr); } .weather-forecast-row { grid-template-columns:repeat(4,1fr); } }
+    @media (max-width:900px) {
+      :root { --sidebar-w: 0px; }
+      .sidebar { transform:translateX(-230px); width:230px; }
+      .sidebar.open { transform:translateX(0); z-index: 999; }
+      .main { margin-left:0; } .topbar { left:0; }
+      .grid-2-1, .grid-1-2, .community-wrap, .grid-3, .crop-reco-grid { grid-template-columns:1fr; }
+      .menu-toggle { display: block; }
+    }
+    @media (max-width:600px) { .weather-forecast-row { grid-template-columns:repeat(3,1fr); } .topbar-search { display:none; } }
+  </style>
+</head>
 <body>
 
-<a href="/logout/">Logout</a>
+  <div class="toast-container" id="toastContainer"></div>
 
-<div class="navbar">
-  🌾 AgriNova Smart Farming AI
-</div>
+  <div class="auth-page" id="authPage">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="auth-logo-name">AGRINOVA AI</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:2px;margin-top:4px;">PRODUCTION READY NODE</div>
+      </div>
+      <div class="auth-title" id="authTitle">Welcome Back</div>
+      <div class="auth-sub" id="authSub">India's Smart Farming Enterprise AI Layer</div>
+      <div id="authError" class="auth-error" style="display:none;"></div>
+      
+      <span style="display:none;" id="authMode">login</span>
+      <div class="form-group">
+        <label class="form-label">Farmer Identity Username</label>
+        <input type="text" class="input-field" id="authUsername" value="Kisan_SaaS">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Secure Passkey</label>
+        <input type="password" class="input-field" id="authPassword" value="password123">
+      </div>
+      <div class="form-group" id="confirmGroup" style="display:none;">
+        <label class="form-label">Verify Passkey</label>
+        <input type="password" class="input-field" id="authConfirm">
+      </div>
 
-<h2 class="welcome">Welcome, Ankit</h2>
+      <button class="btn btn-primary btn-full mb-16" onclick="handleAuth()">Access Enterprise Platform</button>
+      <div style="text-align:center;font-size:13px;color:var(--text-dim)">
+        <span id="authSwitchText">New Node in Platform?</span> 
+        <a onclick="switchAuth()" style="color:var(--green);cursor:pointer;font-weight:700;" id="authSwitchBtn">Register Node</a>
+      </div>
+    </div>
+  </div>
 
-<div class="grid">
+  <div id="app">
+    
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-name">AGRINOVA AI</div>
+        <div class="sidebar-logo-sub">Smart Agri Ecosystem</div>
+        <div class="sidebar-logo-line"></div>
+      </div>
 
-<!-- WEATHER -->
-<div class="card">
-  <h3 id="weatherTitle">🌦 Live Weather</h3>
-  <input id="city" placeholder="Enter city">
-  <button id="weatherBtn" onclick="getWeather()">Get Weather</button>
-  <p id="weather"></p>
-</div>
+      <div class="sidebar-section-label">Core Operations</div>
+      <div class="nav-link active" data-page="dashboard"><span class="nav-icon">⬡</span> Dashboard View</div>
+      <div class="nav-link" data-page="farms"><span class="nav-icon">⬢</span> Farm Nodes</div>
+      <div class="nav-link" data-page="crops"><span class="nav-icon">🌱</span> Engine Models</div>
 
-<!-- CROP -->
-<div class="card">
-  <h3 id="cropTitle">🌱 Crop Suggestion</h3>
-  <button id="cropBtn" onclick="getCrop()">Suggest Crop</button>
-  <p id="crop"></p>
-</div>
+      <div class="sidebar-section-label">Intelligence Layers</div>
+      <div class="nav-link" data-page="weather"><span class="nav-icon">☀️</span> Weather Intelligence</div>
+      <div class="nav-link" data-page="market"><span class="nav-icon">📈</span> Mandi Analytics</div>
+      <div class="nav-link" data-page="schemes"><span class="nav-icon">🏛</span> State Subsidies <span class="nav-badge">NEW</span></div>
+      <div class="nav-link" data-page="community"><span class="nav-icon">💬</span> P2P Network</div>
 
-<!-- DISEASE -->
-<div class="card">
-  <h3 id="diseaseTitle">🦠 Disease Detection</h3>
-  <input type="file">
-  <button id="diseaseBtn" onclick="detectDisease()">Detect</button>
-  <p id="disease"></p>
-</div>
+      <div class="sidebar-section-label">User Context</div>
+      <div class="nav-link" data-page="profile"><span class="nav-icon">👤</span> Node Profile</div>
 
-<!-- CHART -->
-<div class="card">
-  <h3 id="chartTitle">📊 Growth Chart</h3>
-  <canvas id="chart"></canvas>
-</div>
+      <div class="sidebar-user">
+        <div class="sidebar-user-row">
+          <div class="sidebar-avatar" id="sidebarAvatarText">K</div>
+          <div>
+            <div class="sidebar-user-name" id="sidebarUserName">Kisan_SaaS</div>
+            <div class="sidebar-user-role">Lead Operator</div>
+          </div>
+          <a onclick="handleLogout()" style="margin-left:auto;cursor:pointer;font-size:14px;" title="Disconnect Node">✕</a>
+        </div>
+      </div>
+    </aside>
 
-<!-- VOICE -->
-<div class="card">
-  <h3 id="voiceTitle">🎤 Voice AI</h3>
-  <button id="voiceBtn" onclick="startVoice()">Start Voice</button>
-  <p id="voice"></p>
-</div>
+    <header class="topbar">
+      <div>
+        <div class="topbar-breadcrumb" id="topbarBreadcrumb">AGRINOVA / DASHBOARD OVERVIEW</div>
+        <div class="topbar-title" id="topbarTitle">Dashboard Overview</div>
+      </div>
 
-<!-- LANGUAGE -->
-<div class="card">
-  <h3>🌐 Language</h3>
-  <button onclick="setLang('en')">English</button>
-  <button onclick="setLang('hi')">Hindi</button>
-</div>
+      <div class="topbar-right">
+        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+        <div class="topbar-search">
+          <span>🔍</span><input type="text" placeholder="Query cluster infrastructure...">
+        </div>
+        <div class="topbar-live">● LIVE ENVIRONMENT</div>
+        
+        <div class="theme-switcher" title="Change Cluster Appearance Theme">
+          <div class="theme-btn active" data-t="green"></div>
+          <div class="theme-btn" data-t="blue"></div>
+          <div class="theme-btn" data-t="purple"></div>
+          <div class="theme-btn" data-t="sunset"></div>
+          <div class="theme-btn" data-t="mono"></div>
+        </div>
 
-<!-- VIDEO -->
-<div class="card">
-  <h3 id="videoTitle">🎥 Guide</h3>
-  <button id="videoBtn" onclick="loadVideo()">Load</button>
-  <iframe id="video" width="100%" height="200"></iframe>
-</div>
+        <div class="topbar-profile-chip" onclick="navigate('profile')">
+          <div class="sidebar-avatar" style="width:24px;height:24px;font-size:10px;" id="topbarAvatarText">K</div>
+          <div class="topbar-profile-name" id="topbarUsername">Kisan_SaaS</div>
+        </div>
+      </div>
+    </header>
 
-</div>
+    <main class="main">
 
-<script src="/static/script.js"></script>
+      <section class="page active" id="page-dashboard">
+        <div class="hero-banner">
+          <div class="hero-content">
+            <div class="hero-badge">🧬 SYSTEM TELEMETRY OPTIMAL</div>
+            <div class="hero-title">AgriNova <span>SaaS Engine v4.0</span></div>
+            <div class="hero-desc">Welcome back to your decentralized farm control system. Automated diagnostic neural models, active mandi trackers, and climate matrix parameters are loaded.</div>
+            <button class="btn btn-primary" onclick="navigate('crops')">Initialize AI Diagnosis Matrix</button>
+          </div>
+        </div>
+
+        <div class="grid-4 mb-24">
+          <div class="card stat-card">
+            <div class="stat-icon" style="color:var(--green)">⬡</div>
+            <div class="stat-label">MANAGED FARM NODES</div>
+            <div class="stat-value" id="stat-farms">2</div>
+            <div class="stat-sub">Active clusters localized</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon" style="color:var(--accent1)">🌱</div>
+            <div class="stat-label">ACTIVE CROP MATRICES</div>
+            <div class="stat-value" id="stat-crops">3</div>
+            <div class="stat-sub">Monitoring structural yield</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon" style="color:var(--accent2)">💰</div>
+            <div class="stat-label">PROJECTED REVENUE FLOW</div>
+            <div class="stat-value" id="stat-rev">₹79.0k</div>
+            <div class="stat-sub">+14.2% versus baseline target</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon" style="color:var(--accent3)">⚡</div>
+            <div class="stat-label">BIOMASS HEALTH RANGE</div>
+            <div class="stat-value">95%</div>
+            <canvas id="dashSparkHealth" class="sparkline" height="24" style="margin-top:6px;"></canvas>
+          </div>
+        </div>
+
+        <div class="grid-2-1">
+          <div class="card">
+            <div class="section-label">DATA VISUALIZATION STACK</div>
+            <div class="section-title">Annual Yield Matrix Optimization Output</div>
+            <div class="bar-chart" id="barChart"></div>
+          </div>
+          <div class="card">
+            <div class="section-label">ENVIRONMENT EVENT LOGGER</div>
+            <div class="section-title">Telemetry Audit Stream</div>
+            <div style="margin-top:12px;" id="dashboardEvents">
+              <div class="activity-item"><div class="activity-dot"></div><div class="activity-text">AI Diagnostic engine parsed uploaded leaf telemetry data. Healthy response.</div><div class="activity-time">2m ago</div></div>
+              <div class="activity-item"><div class="activity-dot" style="background:var(--accent2)"></div><div class="activity-text">Mandi sync completed for wheat futures market (+₹45/Q).</div><div class="activity-time">1h ago</div></div>
+              <div class="activity-item"><div class="activity-dot"></div><div class="activity-text">Weather vector array refreshed via Open-Meteo systems payload.</div><div class="activity-time">3h ago</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-farms">
+        <div style="display:flex;justify-content:space-between;align-items:center;" class="mb-20">
+          <div>
+            <div class="section-label">HARDWARE ARCHITECTURE</div>
+            <div class="section-title">Farm Infrastructure Nodes</div>
+          </div>
+          <button class="btn btn-primary" onclick="openAddFarm()">+ Register New Farm Cluster</button>
+        </div>
+        <div class="grid-3" id="farmsGrid"></div>
+      </section>
+
+      <section class="page" id="page-crops">
+        <div class="tabs">
+          <div class="tab active" id="tabBtnCrops" onclick="switchCropTab('crops')">Active Cultivation Databases</div>
+          <div class="tab" id="tabBtnAI" onclick="switchCropTab('ai')">Infinite AI Recommendation Layer</div>
+          <div class="tab" id="tabBtnDisease" onclick="switchCropTab('disease')">Vision Disease Pathogen Scanner</div>
+        </div>
+
+        <div id="panelCrops" class="tab-panel active">
+          <div style="display:flex;justify-content:space-between;align-items:center;" class="mb-16">
+            <div class="section-title">Managed Farm Crop Yield Inventories</div>
+            <button class="btn btn-primary btn-sm" onclick="openAddCrop()">+ Register Yield Data</button>
+          </div>
+          <div class="card" style="padding:0;overflow-x:auto;">
+            <table class="data-table">
+              <thead>
+                <tr><th>Crop Parameter</th><th>Associated Farm Cluster</th><th>Cycle Season</th><th>Total Production</th><th>Tracked Revenue</th><th>Lifecycle Phase</th><th>Action</th></tr>
+              </thead>
+              <tbody id="cropTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="panelAI" class="tab-panel">
+          <div class="card mb-20">
+            <div class="section-label">PREDICTIVE PARAMETER CLUSTERING</div>
+            <div class="section-title">Neural Engine Crop Optimization Matrix</div>
+            <p style="font-size:13.5px;color:var(--text-dim);margin-bottom:16px;">This engine generates contextualized high-efficiency agronomy pipelines using live variable matrices.</p>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <select class="select-field" id="cropAdvisorSoil" style="width:160px;">
+                <option value="Loamy">Loamy Matrix</option>
+                <option value="Black Cotton">Black Cotton Matrix</option>
+                <option value="Alluvial">Alluvial Matrix</option>
+              </select>
+              <select class="select-field" id="cropAdvisorSeason" style="width:160px;">
+                <option value="Kharif">Kharif Cycle</option>
+                <option value="Rabi">Rabi Cycle</option>
+                <option value="Zaid">Zaid Cycle</option>
+              </select>
+              <button class="btn btn-primary" id="loadMoreCropsBtn" onclick="loadMoreCropRecos()">⊕ Execute Matrix Search</button>
+            </div>
+          </div>
+          <div class="crop-reco-grid" id="cropRecoGrid"></div>
+        </div>
+
+        <div id="panelDisease" class="tab-panel">
+          <div class="grid-2-1">
+            <div class="card">
+              <div class="section-label">IMAGE RECOGNITION PIPELINE</div>
+              <div class="section-title">Visual Leaf Pathogen Diagnostics Vector</div>
+              <p style="font-size:13.5px;color:var(--text-dim);margin:8px 0 16px;">Upload a leaf sample to execute localized deep-learning computer vision pathogen isolation models.</p>
+              
+              <label class="file-label" for="diseaseFile">
+                <span id="diseaseFileName">📁 Drag leaf telemetry matrix payload here or browse local arrays</span>
+                <input type="file" id="diseaseFile" accept="image/*" style="display:none;">
+              </label>
+
+              <img id="diseasePreview" src="#" alt="Upload Matrix Target Preview" style="display:none;max-height:200px;border-radius:var(--radius-sm);margin:12px auto;border:1px solid var(--border-hi);">
+
+              <button class="btn btn-primary btn-full" id="diseaseBtnScan" onclick="runDiseaseDetection()">Run Real-time Diagnostic Sequence</button>
+            </div>
+            <div class="card" style="background:var(--surface2);">
+              <div class="section-label">DIAGNOSTIC SYSTEM CONTAINER</div>
+              <div class="section-title">Diagnostic Telemetry Output</div>
+              <div id="diseaseResult" class="ai-result" style="display:block;background:transparent;border:none;padding:0;">
+                <div class="ai-result-label">◉ SYSTEM IDLE</div>
+                <p style="font-size:13px;color:var(--text-muted)">Awaiting system initialization prompt or tensor image input sequence stream.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-weather">
+        <div class="card mb-20">
+          <div class="section-label">SATELLITE TELEMETRY LINK</div>
+          <div class="section-title">Atmospheric Vector Array Query Engine</div>
+          <div style="display:flex;gap:10px;margin-top:12px;">
+            <input type="text" class="input-field" id="weatherCityInput" value="Raipur" placeholder="Enter localized regional vector coordinate city...">
+            <button class="btn btn-primary" id="weatherSearchBtn" onclick="searchWeather()">◎ Query Array Network</button>
+          </div>
+          <div id="weatherQuickCities" style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">
+            <span style="font-size:12px;color:var(--text-muted);align-self:center;">Hot Clusters:</span>
+            <button class="btn btn-ghost btn-sm" onclick="selectCity('Raipur')">Raipur</button>
+            <button class="btn btn-ghost btn-sm" onclick="selectCity('New Delhi')">New Delhi</button>
+            <button class="btn btn-ghost btn-sm" onclick="selectCity('Mumbai')">Mumbai</button>
+            <button class="btn btn-ghost btn-sm" onclick="selectCity('Bengaluru')">Bengaluru</button>
+          </div>
+          <div id="weatherError" style="display:none;margin-top:12px;color:var(--accent3);font-family:var(--mono);font-size:13px;"></div>
+        </div>
+
+        <div id="weatherMain" style="display:none;">
+          <div class="grid-2-1 mb-16">
+            <div class="card">
+              <div class="section-label">LIVE GEOSTREAM ATMOSPHERICS</div>
+              <div style="display:flex;justify-content:between;align-items:center;margin-top:8px;">
+                <div>
+                  <h2 style="font-size:24px;font-weight:900;" id="wCity">Raipur, IN</h2>
+                  <div class="weather-desc" id="wDesc">Mainly Clear Array Cluster</div>
+                </div>
+                <div class="weather-big-temp" id="wTemp" style="margin-left:auto;">34°C</div>
+              </div>
+              <div class="weather-meta-row">
+                <div class="weather-meta-item">💨 Velocity: <b id="wWind" style="color:var(--green)">12 km/h</b></div>
+                <div class="weather-meta-item">💧 Humidity: <b id="wHumid" style="color:var(--accent1)">65%</b></div>
+                <div class="weather-meta-item">🌧 Rain Vector Prob: <b id="wRain" style="color:var(--accent4)">10%</b></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="section-label">DYNAMIC THERMAL COMPONENT ANALYTICS</div>
+              <div class="section-title">7-Day Maximum Forecast Amplitude</div>
+              <canvas id="weatherSparkline" height="80" style="width:100%;margin-top:12px;"></canvas>
+            </div>
+          </div>
+
+          <div class="card mb-16">
+            <div class="section-label">TIME VARIATION STEPPERS</div>
+            <div class="weather-forecast-row" id="forecastRow"></div>
+          </div>
+
+          <div class="card">
+            <div class="section-label">INTELLIGENCE PROCESSING AGENT</div>
+            <div class="section-title">AgriNova Micro-Climate Crop Strategy Directive</div>
+            <div id="weatherAdviceBox" class="ai-result" style="display:block;"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-market">
+        <div class="card mb-20">
+          <div class="section-label">MANDI NETWORK LEDGER</div>
+          <div class="section-title">Real-Time Commodity Price Matrix Pipeline</div>
+          <p style="font-size:13.5px;color:var(--text-dim);margin-bottom:12px;">Active indexing pipelines for verified agricultural wholesale distribution terminals across the state grid parameters.</p>
+          <button class="btn btn-primary btn-sm" id="marketAnalysisBtn" onclick="runMarketAnalysis()">Execute Neural Market Trend Forecast</button>
+          <div id="marketAnalysisBox" class="ai-result"></div>
+        </div>
+
+        <div class="grid-4" id="marketGrid"></div>
+      </section>
+
+      <section class="page" id="page-schemes">
+        <div class="grid-2-1">
+          <div>
+            <div class="section-label">LEDGER SUBSIDIES SYSTEM</div>
+            <div class="section-title mb-16">Verified Central State Farm Capital Allocations</div>
+            <div class="grid-2" id="schemesGrid"></div>
+          </div>
+          <div>
+            <div class="card" style="position:sticky;top:calc(var(--topbar-h) + 20px);">
+              <div class="section-label">SCHEME AUDIT SUBSYSTEM CONTAINER</div>
+              <div class="section-title" id="schemeDetailTitle">SELECT COMPONENT ARRAYS</div>
+              <div id="schemeDetailBox" class="ai-result" style="display:block;background:transparent;border:none;padding:0;margin-top:12px;">
+                <p style="font-size:13px;color:var(--text-muted)">Select any state institutional deployment matrix to parse detailed micro-eligibility parameter requirements.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-community">
+        <div class="community-wrap">
+          <div>
+            <div class="card mb-16">
+              <div class="section-label">BROADCAST PIPELINE INJECTOR</div>
+              <div class="section-title">Inject Global Network Message Packet</div>
+              <div class="form-group" style="margin-top:12px;">
+                <textarea class="textarea-field" id="newPostCaption" placeholder="Share localized agronomy logs or wholesale supply discoveries across the platform..."></textarea>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <select class="select-field" id="newPostTag" style="width:150px;padding:7px 10px;font-size:12px;">
+                  <option value="Crop Update">Crop Optimization</option>
+                  <option value="Finance">Capital Stream</option>
+                  <option value="Market">Mandi Logistics</option>
+                  <option value="Technology">Automated Drones</option>
+                </select>
+                <button class="btn btn-primary btn-sm" onclick="submitPost()">Broadcast Packet</button>
+              </div>
+            </div>
+
+            <div id="communityFeed"></div>
+          </div>
+
+          <div>
+            <div class="card mb-16">
+              <div class="section-label">ANALYTICS STREAM LAYER</div>
+              <div class="section-title">Network Nodes Metrics</div>
+              <div style="margin-top:12px;">
+                <div class="stat-row"><span class="stat-row-label">Platform Nodes Connected</span><span class="stat-row-val">14,821</span></div>
+                <div class="stat-row"><span class="stat-row-label">Data Packets Transmitted</span><span class="stat-row-val">842.1k</span></div>
+                <div class="stat-row"><span class="stat-row-label">AI Queries Synchronized</span><span class="stat-row-val">99.8%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-profile">
+        <div class="card mb-20" style="background:linear-gradient(135deg, var(--bg2), var(--bg3));border-color:var(--border-hi);">
+          <div style="display:flex;align-items:center;gap:20px;">
+            <div class="profile-big-avatar" id="profileAvatar" style="width:64px;height:64px;border-radius:50%;background:var(--green);color:#000;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;">K</div>
+            <div>
+              <h2 style="font-size:22px;font-weight:900;" id="profileUsername">Kisan_SaaS</h2>
+              <div style="font-family:var(--mono);font-size:11px;color:var(--green)">NODE CLUSTER IDENTIFIER: VERIFIED OPERATOR</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2-1">
+          <div class="card">
+            <div class="section-label">CONTEXT STRUCT MANAGEMENT</div>
+            <div class="section-title mb-16">Operational Configuration Variables</div>
+            <div class="grid-2">
+              <div class="form-group"><label class="form-label">Regional District Array</label><input type="text" class="input-field" id="editDistrict" value="Raipur"></div>
+              <div class="form-group"><label class="form-label">Provincial State Context</label><input type="text" class="input-field" id="editState" value="Chhattisgarh"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Static Profile Manifest</label><textarea class="textarea-field" id="editBio" placeholder="Operational manifest arrays summary..."></textarea></div>
+            <div style="display:flex;gap:10px;">
+              <button class="btn btn-ghost" id="aiBioBtn" onclick="generateAIBio()">🤖 Sync Automated AI Profile</button>
+              <button class="btn btn-primary" onclick="saveProfile()">Commit Configuration</button>
+            </div>
+            <div id="aiProfileBox" class="ai-result"></div>
+          </div>
+
+          <div class="card">
+            <div class="section-label">TELEMETRY INVENTORY META DATA</div>
+            <div class="section-title mb-12">Cluster Node Statistics</div>
+            <div class="info-row"><span class="info-key">Farm Footprints Verified</span><span class="info-val" id="profileFarms">2</span></div>
+            <div class="info-row"><span class="info-key">Monitored Crop Entities</span><span class="info-val" id="profileCrops">3</span></div>
+            <div class="info-row"><span class="info-key">Historical Ledger Income</span><span class="info-val" id="profileRevenue" style="color:var(--accent2)">₹79.0k</span></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="farmModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="farmModalTitle">Register New Farm Node Cluster</div>
+        <button class="modal-close" onclick="closeModal('farmModal')">✕</button>
+      </div>
+      <input type="hidden" id="farmEditId">
+      <div class="form-group"><label class="form-label">Cluster Call Sign Name</label><input type="text" class="input-field" id="farmName" placeholder="e.g. Raipur Sector Alpha"></div>
+      <div class="form-group"><label class="form-label">Geo Location Coordinates</label><input type="text" class="input-field" id="farmLocation" placeholder="e.g. Raipur, CG"></div>
+      <div class="grid-2">
+        <div class="form-group"><label class="form-label">Spatial Area Footprint (Acres)</label><input type="number" class="input-field" id="farmArea" value="5.0"></div>
+        <div class="form-group">
+          <label class="form-label">Soil Matrix Substrate</label>
+          <select class="select-field" id="farmSoil">
+            <option value="Loamy">Loamy Substrate</option>
+            <option value="Black Cotton">Black Cotton Substrate</option>
+            <option value="Alluvial">Alluvial Substrate</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full mt-10" onclick="saveFarm()">Commit Structural Node To Architecture</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="cropModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">Register Cultivation Biomass Matrix</div>
+        <button class="modal-close" onclick="closeModal('cropModal')">✕</button>
+      </div>
+      <div class="form-group"><label class="form-label">Target Infrastructure Farm Node</label><select class="select-field" id="cropFarmSel"></select></div>
+      <div class="form-group"><label class="form-label">Crop Biological Entity Name</label><input type="text" class="input-field" id="cropName" placeholder="e.g. Rice (IR-64)"></div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Seasonal Timeline Cycle</label>
+          <select class="select-field" id="cropSeason">
+            <option value="Kharif">Kharif Core Cycle</option>
+            <option value="Rabi">Rabi Core Cycle</option>
+            <option value="Zaid">Zaid Short Cycle</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Current Execution Status</label>
+          <select class="select-field" id="cropStatus">
+            <option value="Growing">Growing Phase</option>
+            <option value="Sowing">Sowing Phase</option>
+            <option value="Harvested">Harvested Lifecycle Completed</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="form-group"><label class="form-label">Total Volume Biomass (kg)</label><input type="number" class="input-field" id="cropProd" value="1000"></div>
+        <div class="form-group"><label class="form-label">Tracked Gross Value (₹)</label><input type="number" class="input-field" id="cropRev" value="25000"></div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="saveCrop()">Inject Matrix Configuration Records</button>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    /* ── BASE SYSTEM DATA INSTANCES ── */
+    const App = {
+      page: "dashboard",
+      username: "Kisan_SaaS",
+      theme: "green",
+      farms: [
+        { id:1, name:"Green Valley Cluster 01", location:"Raipur, CG", area:5.5, soil:"Loamy", created:"12 Jan 2026" },
+        { id:2, name:"Sunrise Grid Alpha",    location:"Durg, CG",   area:3.2, soil:"Black Cotton", created:"18 Mar 2026" },
+      ],
+      crops: [
+        { id:1, farmId:1, name:"Rice Core",   season:"Kharif", status:"Growing",   production:1200, revenue:38400 },
+        { id:2, farmId:1, name:"Wheat Node",  season:"Rabi",   status:"Harvested", production:800,  revenue:19600 },
+        { id:3, farmId:2, name:"Soybean Max", season:"Kharif", status:"Growing",   production:500,  revenue:21000 },
+      ],
+      posts: [
+        { id:1, user:"Ramesh Kumar", time:"2h ago", text:"Rice crop biomass showing optimal expansion arrays following monsoon calibration vectors in Raipur region. Anyone experiencing visual variations?", likes:14, tag:"Crop Update", liked:false },
+        { id:2, user:"Priya Devi",   time:"5h ago", text:"Verified central funding allocations have routed successfully into linked agricultural wallets. Confirm your structural verification status.", likes:28, tag:"Finance", liked:false },
+      ],
+      cropRecos: [],
+      weatherCache: {},
+    };
+
+    /* ── SYSTEM UI NOTIFICATION EMULATOR ── */
+    function toast(msg, type = "success") {
+      const icons = { success:"✅", error:"❌", info:"⚡" };
+      const tc = document.getElementById("toastContainer");
+      const t = document.createElement("div");
+      t.className = `toast ${type}`;
+      t.innerHTML = `<span class="toast-icon">${icons[type]||"⚡"}</span> ${msg}`;
+      tc.appendChild(t);
+      setTimeout(() => t.remove(), 3500);
+    }
+
+    /* ── CLUSTER APPEARANCE CONTROLLER ── */
+    function setTheme(name) {
+      App.theme = name;
+      document.documentElement.setAttribute("data-theme", name === "green" ? "" : name);
+      document.querySelectorAll(".theme-btn").forEach(b => b.classList.toggle("active", b.dataset.t === name));
+    }
+
+    /* ── CLIENT SYSTEM SPA NAVIGATION MATRIX ── */
+    function navigate(pageId) {
+      App.page = pageId;
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".nav-link").forEach(l => l.classList.toggle("active", l.dataset.page === pageId));
+      
+      const el = document.getElementById(`page-${pageId}`);
+      if (el) el.classList.add("active");
+
+      document.getElementById("topbarBreadcrumb").textContent = `AGRINOVA / ${pageId.toUpperCase()}`;
+      
+      if (pageId === "dashboard") renderDashboard();
+      if (pageId === "farms")     renderFarms();
+      if (pageId === "crops")     renderCropTable();
+      if (pageId === "community") renderCommunity();
+      if (pageId === "market")    renderMarketCards();
+      if (pageId === "profile")   renderProfile();
+      
+      // Close sidebar mobile view on navigating
+      document.getElementById("sidebar").classList.remove("open");
+    }
+
+    function toggleSidebar() { document.getElementById("sidebar").classList.toggle("open"); }
+
+    /* ============================================================
+       DASHBOARD COMPONENT SUBROUTINES
+    ============================================================ */
+    function renderDashboard() {
+      const totalRev = App.crops.reduce((s,c) => s + c.revenue, 0);
+      document.getElementById("stat-farms").textContent = App.farms.length;
+      document.getElementById("stat-crops").textContent = App.crops.length;
+      document.getElementById("stat-rev").textContent   = `₹${(totalRev/1000).toFixed(1)}k`;
+      renderBarChart();
+      renderSparkline("dashSparkHealth", [88, 90, 89, 93, 91, 94, 95], "var(--green)");
+    }
+
+    function renderBarChart() {
+      const data = [42, 48, 55, 61, 70, 75, 68, 82, 91, 96];
+      const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"];
+      const max = Math.max(...data);
+      const container = document.getElementById("barChart");
+      if (!container) return;
+      container.innerHTML = data.map((v, i) => {
+        const h = Math.max(10, (v / max) * 140);
+        const isLast = i === data.length - 1;
+        const bg = isLast ? "linear-gradient(180deg, var(--green), var(--green-dark))" : "rgba(52,211,120,0.15)";
+        return `
+          <div class="bar-col">
+            <span class="bar-val">${v}</span>
+            <div class="bar-body" style="height:${h}px;background:${bg};"></div>
+            <span class="bar-lbl">${labels[i]}</span>
+          </div>`;
+      }).join("");
+    }
+
+    function renderSparkline(canvasId, data, color) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const W = canvas.width = 120;
+      const H = canvas.height = 30;
+      ctx.clearRect(0,0,W,H);
+      const min = Math.min(...data), max = Math.max(...data), range = (max-min)||1;
+      const pts = data.map((v,i) => [(i/(data.length-1))*W, H - ((v-min)/range)*(H-6) - 3]);
+      ctx.beginPath();
+      pts.forEach(([x,y],i) => i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y));
+      ctx.strokeStyle = color.includes("var(--green)") ? "#34d978" : color;
+      ctx.lineWidth = 2; ctx.stroke();
+    }
+
+    /* ============================================================
+       FARM NODES MANAGEMENT AGGREGATORS
+    ============================================================ */
+    function renderFarms() {
+      const grid = document.getElementById("farmsGrid");
+      if (!grid) return;
+      grid.innerHTML = App.farms.map(farm => {
+        const fCrops = App.crops.filter(c => c.farmId === farm.id);
+        const rev = fCrops.reduce((s,c)=>s+c.revenue,0);
+        return `
+        <div class="card">
+          <div style="font-size:24px;margin-bottom:8px;">⬡</div>
+          <h3 class="section-title">${farm.name}</h3>
+          <div class="info-row"><span class="info-key">Location Vector</span><span class="info-val">${farm.location}</span></div>
+          <div class="info-row"><span class="info-key">Total Boundary</span><span class="info-val">${farm.area} Acres</span></div>
+          <div class="info-row"><span class="info-key">Substrate Matrix</span><span class="info-val">${farm.soil}</span></div>
+          <div class="info-row"><span class="info-key">Monitored Loops</span><span class="info-val">${fCrops.length} Yields</span></div>
+          <div style="display:flex;gap:8px;margin-top:14px">
+            <button class="btn btn-ghost btn-sm btn-full" onclick="deleteFarm(${farm.id})">Decommission Node</button>
+          </div>
+        </div>`;
+      }).join("");
+    }
+
+    function openAddFarm() { openModal("farmModal"); }
+    function saveFarm() {
+      const name = document.getElementById("farmName").value.trim();
+      const loc = document.getElementById("farmLocation").value.trim();
+      const area = parseFloat(document.getElementById("farmArea").value) || 0;
+      const soil = document.getElementById("farmSoil").value;
+      if (!name || !loc) { toast("Invalid telemetry initialization fields","error"); return; }
+      App.farms.push({ id: Date.now(), name, location: loc, area, soil, created: "June 2026" });
+      closeModal("farmModal"); renderFarms(); renderDashboard();
+      toast("Registered system database pipeline node");
+    }
+    function deleteFarm(id) {
+      App.farms = App.farms.filter(f => f.id !== id);
+      renderFarms(); renderDashboard();
+      toast("Decommissioned infrastructure array matrix node", "info");
+    }
+
+    /* ============================================================
+       CROP ENGINE MATRIX LAYER SUB SYSTEMS
+    ============================================================ */
+    function switchCropTab(tabId) {
+      document.querySelectorAll("#page-crops .tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll("#page-crops .tab-panel").forEach(p => p.classList.remove("active"));
+      if(tabId === 'crops') { document.getElementById("tabBtnCrops").classList.add("active"); document.getElementById("panelCrops").classList.add("active"); }
+      if(tabId === 'ai') { document.getElementById("tabBtnAI").classList.add("active"); document.getElementById("panelAI").classList.add("active"); }
+      if(tabId === 'disease') { document.getElementById("tabBtnDisease").classList.add("active"); document.getElementById("panelDisease").classList.add("active"); }
+    }
+
+    function renderCropTable() {
+      const tbody = document.getElementById("cropTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = App.crops.map(c => {
+        const farm = App.farms.find(f => f.id===c.farmId);
+        return `
+        <tr>
+          <td style="font-weight:700">🌱 ${c.name}</td>
+          <td>${farm?.name||"Global Matrix Shared Stack"}</td>
+          <td><span class="tag tag-blue">${c.season}</span></td>
+          <td style="font-family:var(--mono)">${c.production} kg</td>
+          <td style="font-family:var(--mono);color:var(--green)">₹${c.revenue.toLocaleString()}</td>
+          <td><span class="tag tag-green">● ${c.status}</span></td>
+          <td><button class="btn btn-danger btn-sm" onclick="deleteCrop(${c.id})">✕</button></td>
+        </tr>`;
+      }).join("");
+    }
+
+    function openAddCrop() {
+      const sel = document.getElementById("cropFarmSel");
+      sel.innerHTML = App.farms.map(f => `<option value="${f.id}">${f.name}</option>`).join("");
+      openModal("cropModal");
+    }
+    function saveCrop() {
+      const farmId = parseInt(document.getElementById("cropFarmSel").value);
+      const name = document.getElementById("cropName").value.trim();
+      const season = document.getElementById("cropSeason").value;
+      const status = document.getElementById("cropStatus").value;
+      const prod = parseFloat(document.getElementById("cropProd").value) || 0;
+      const rev = parseFloat(document.getElementById("cropRev").value) || 0;
+      if(!name) { toast("Missing parameters","error"); return; }
+      App.crops.push({ id: Date.now(), farmId, name, season, status, production: prod, revenue: rev });
+      closeModal("cropModal"); renderCropTable(); renderDashboard();
+      toast("Injected cultivation index model entry points");
+    }
+    function deleteCrop(id) {
+      App.crops = App.crops.filter(c => c.id !== id);
+      renderCropTable(); renderDashboard(); toast("Purged target data vector index", "info");
+    }
+
+    /* ── MOCK AI PIPELINE FULFILLMENT MATRIX CONTROLLERS ── */
+    function loadMoreCropRecos() {
+      const grid = document.getElementById("cropRecoGrid");
+      const btn = document.getElementById("loadMoreCropsBtn");
+      btn.innerHTML = `<span class="spinner"></span> Parsing Matrix Clusters...`;
+      btn.disabled = true;
+
+      setTimeout(() => {
+        const soil = document.getElementById("cropAdvisorSoil").value;
+        const season = document.getElementById("cropAdvisorSeason").value;
+        const mockData = [
+          { name: "Premium Basmati Hybrid", water: "High Target Flow", yield: "24-28 Q/Acre", price: "₹4,500/Q", tip: "Execute constant matrix loop hydration monitoring system parameters during early phase states." },
+          { name: "Black Matpe Pulse Loop", water: "Low Target Array", yield: "8-12 Q/Acre", price: "₹7,200/Q", tip: "Maintain optimal nitrogen cluster aeration vectors to mitigate moisture rot mutations." },
+          { name: "Golden Mustard Bio Node", water: "Medium Vector", yield: "15-18 Q/Acre", price: "₹5,450/Q", tip: "Calibrate localized thermal telemetry arrays to suppress early stage micro-pathogen formations." }
+        ];
+
+        grid.innerHTML = mockData.map(c => `
+          <div class="crop-reco-card">
+            <div class="crop-reco-name">⚡ ${c.name}</div>
+            <div class="crop-reco-meta">
+              <div>🧬 <b>Substrate Context:</b> Specified ${soil} Array</div>
+              <div>🌦 <b>Temporal Timeline:</b> ${season} Loop Array</div>
+              <div>💧 <b>Hydration Flux:</b> ${c.water}</div>
+              <div>📊 <b>Output Density:</b> ${c.yield}</div>
+              <div>💰 <b>Target Asset Value:</b> ${c.price}</div>
+              <div style="margin-top:8px;color:var(--green)">💡 <b>Agronomy Directive:</b> ${c.tip}</div>
+            </div>
+          </div>
+        `).join("");
+
+        btn.innerHTML = `⊕ Execute Matrix Search`;
+        btn.disabled = false;
+        toast("Synchronized optimized system agronomy blueprints");
+      }, 1200);
+    }
+
+    function runDiseaseDetection() {
+      const box = document.getElementById("diseaseResult");
+      const btn = document.getElementById("diseaseBtnScan");
+      btn.innerHTML = `<span class="spinner"></span> Running Telemetry Tensors...`;
+      btn.disabled = true;
+      box.innerHTML = `
+        <div class="ai-result-label">◉ PROCESSING RECOGNITION MODELS</div>
+        <div class="skeleton-line" style="width:90%"></div>
+        <div class="skeleton-line" style="width:75%"></div>
+      `;
+      box.style.display = "block";
+
+      setTimeout(() => {
+        box.innerHTML = `
+          <div class="ai-result-label">◉ VISION MODEL BALANCED OUTPUT</div>
+          <div style="font-weight:700;color:var(--accent3);font-size:15px;margin-bottom:6px;">Target Result Isolation: Cercospora Structural Pathogen Blight</div>
+          <div style="font-size:13px;color:var(--text-dim);">
+            • Isolation Confidence Match Coefficient: 94.82% Tensor Range<br>
+            • System Severity Matrix Threshold: Moderate Micro Scale Vector<br>
+            • Remediation Action Loop: Inject organic copper vector formulations immediately. Halt systemic high nitrogen payload distribution algorithms across sector infrastructure grid.
+          </div>
+        `;
+        btn.innerHTML = `Run Real-time Diagnostic Sequence`;
+        btn.disabled = false;
+        toast("Vision analytics telemetry pass validated");
+      }, 1500);
+    }
+
+    /* ============================================================
+       REAL TIME OPEN METEO METRIC WEATHER PIPELINE
+    ============================================================ */
+    async function fetchWeatherPayload(city) {
+      const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&format=json`);
+      const geoData = await geoRes.json();
+      if (!geoData.results?.length) throw new Error("Target cluster terminal geo array coordinates unmapped.");
+      const { latitude: lat, longitude: lon, name } = geoData.results[0];
+
+      const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&forecast_days=7&timezone=auto`);
+      const wxData = await wxRes.json();
+      return { city: name, temp: Math.round(wxData.current_weather.temperature), wind: Math.round(wxData.current_weather.windspeed), code: wxData.current_weather.weathercode, daily: wxData.daily };
+    }
+
+    async function searchWeather() {
+      const city = document.getElementById("weatherCityInput").value.trim();
+      if(!city) return;
+      const btn = document.getElementById("weatherSearchBtn");
+      btn.innerHTML = `<span class="spinner"></span> Accessing Nodes...`;
+      btn.disabled = true;
+      document.getElementById("weatherError").style.display = "none";
+
+      try {
+        const data = await fetchWeatherPayload(city);
+        document.getElementById("weatherMain").style.display = "block";
+        document.getElementById("wCity").textContent = `${data.city}, IN`;
+        document.getElementById("wTemp").textContent = `${data.temp}°C`;
+        document.getElementById("wWind").textContent = `${data.wind} km/h`;
+        
+        // Emulate daily forecast blocks mapping
+        const fRow = document.getElementById("forecastRow");
+        fRow.innerHTML = data.daily.time.map((t, i) => `
+          <div class="forecast-day">
+            <div class="forecast-day-name">${t.substring(5)}</div>
+            <div class="forecast-day-icon">🌤</div>
+            <div class="forecast-day-hi">${Math.round(data.daily.temperature_2m_max[i])}°</div>
+          </div>
+        `).join("");
+
+        document.getElementById("weatherAdviceBox").innerHTML = `
+          <div class="ai-result-label">◉ STRATEGY ANALYSIS DIRECTIVE ARRAY</div>
+          <div style="font-size:13px;color:var(--text-dim)">
+            Current parameters at vector checkpoint ${data.city} remain ideal for crop maintenance cycles. Irrigation delivery channels should balance system pressure loops to save resource allocation metrics.
+          </div>
+        `;
+        
+        renderSparkline("weatherSparkline", data.daily.temperature_2m_max, "var(--green)");
+        toast("Synchronized atmospheric vector frameworks");
+      } catch (err) {
+        document.getElementById("weatherError").textContent = `⚠️ Infrastructure Fault Error: ${err.message}`;
+        document.getElementById("weatherError").style.display = "block";
+      } finally {
+        btn.innerHTML = `◎ Query Array Network`;
+        btn.disabled = false;
+      }
+    }
+
+    function selectCity(c) { document.getElementById("weatherCityInput").value = c; searchWeather(); }
+
+    /* ============================================================
+       MANDI SYSTEM MARKET PIPELINES ARCHITECTURE
+    ============================================================ */
+    const STACK_MANDI = [
+      { crop: "🌾 Wholesale Wheat Futures", price: 2450, unit: "Q", change: "+2.1%" },
+      { crop: "🍚 Raw Paddy Grain Loop", price: 3200, unit: "Q", change: "+4.3%" },
+      { crop: "🌽 Yellow Maize Feed Stock", price: 2100, unit: "Q", change: "-1.2%" },
+      { crop: "🫘 Organic Soy Protein Node", price: 4200, unit: "Q", change: "+6.8%" }
+    ];
+
+    function renderMarketCards() {
+      const grid = document.getElementById("marketGrid");
+      if (!grid) return;
+      grid.innerHTML = STACK_MANDI.map(m => {
+        const isUp = m.change.startsWith("+");
+        return `
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;">
+              <span class="market-crop">${m.crop}</span>
+              <span class="tag ${isUp ? 'tag-green':'tag-red'}">${m.change}</span>
+            </div>
+            <div class="market-price" style="margin:10px 0 4px;color:var(--accent2)">₹${m.price.toLocaleString()}</div>
+            <div class="market-unit">PER CENTRAL STANDARD UNIT (${m.unit})</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function runMarketAnalysis() {
+      const box = document.getElementById("marketAnalysisBox");
+      box.innerHTML = `
+        <div class="ai-result-label">◉ STRATEGY INSIGHT DELIVERABLE FEED</div>
+        <p style="font-size:13px;">Macro supply chains indicate high demand index thresholds for Soy and Paddy vectors inside central sector warehousing grids. Recommendation logic dictates holding wheat assets for an expected 14-day pipeline upward compression wave loop anomaly.</p>
+      `;
+      box.style.display = "block";
+      toast("Market optimization sequence completed");
+    }
+
+    /* ============================================================
+       STATE SCHEMES SUBSIDIES SUBSYSTEM ARCHITECTURES
+    ============================================================ */
+    const MATRIX_SCHEMES = [
+      { name: "PM Kisan Samman Deployment Nidhi", benefit: "Direct digital capital infrastructure injection of ₹6,000 yearly intervals." },
+      { name: "PM Fasal Bima Insurance Protocol", benefit: "Risk decentralization loops offering systemic validation against yield failures." },
+      { name: "Kisan Credit Low-Interest Leverage", benefit: "Fluid micro financing capital access routes sitting at 4% flat base parameter bounds." }
+    ];
+
+    function renderSchemes() {
+      const grid = document.getElementById("schemesGrid");
+      if(!grid) return;
+      grid.innerHTML = MATRIX_SCHEMES.map(s => `
+        <div class="card scheme-card" onclick="loadSchemeDetail('${s.name}')">
+          <div class="scheme-icon">🏛</div>
+          <div class="scheme-name">${s.name}</div>
+          <div class="scheme-benefit">${s.benefit}</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--green)">▷ PARSE SUITE AI MATRIX LOGIC</div>
+        </div>
+      `).join("");
+    }
+
+    function loadSchemeDetail(name) {
+      const box = document.getElementById("schemeDetailBox");
+      document.getElementById("schemeDetailTitle").textContent = name;
+      box.innerHTML = `
+        <div class="ai-result-label">◉ AI SCHEME VERIFICATION DIRECTIVE VALIDATED</div>
+        <p style="font-size:13px;color:var(--text-dim)">
+          • Structural Eligibility Matrix: Verified operational farm node footprints.<br>
+          • Required Identification Substrates: Localized bank routing codes and biometric verification data arrays.<br>
+          • Operational Workflow Path: Access the official deployment terminal node, authenticate user passkey parameters, pass data schemas into registration modules, and track processing arrays.
+        </p>
+      `;
+      toast("Parsed state regulatory operational ledger rules");
+    }
+
+    /* ============================================================
+       DECENTRALIZED P2P NETWORK SOCIAL MODULE SYSTEM
+    ============================================================ */
+    function renderCommunity() {
+      const feed = document.getElementById("communityFeed");
+      if (!feed) return;
+      feed.innerHTML = App.posts.map(p => `
+        <div class="card feed-card">
+          <div class="feed-user-row">
+            <div class="feed-avatar">${p.user[0]}</div>
+            <div>
+              <div class="feed-username">${p.user}</div>
+              <div class="feed-time">${p.time}</div>
+            </div>
+            <span class="tag tag-teal" style="margin-left:auto;">${p.tag}</span>
+          </div>
+          <div class="feed-caption">${p.text}</div>
+          <div class="feed-actions">
+            <button class="btn btn-ghost btn-sm" onclick="toast('Message payload vector tracking verified')">❤️ Endorse Message Packet</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function submitPost() {
+      const txt = document.getElementById("newPostCaption").value.trim();
+      const tag = document.getElementById("newPostTag").value;
+      if(!txt) return;
+      App.posts.unshift({ id: Date.now(), user: App.username, time: "Just Now", text: txt, tag: tag });
+      document.getElementById("newPostCaption").value = "";
+      renderCommunity();
+      toast("Broadcast social telemetry array packet globally across the network loop");
+    }
+
+    /* ============================================================
+       USER PARAMETERS CONFIGURATION ARCHITECTURE ENGINE
+    ============================================================ */
+    function renderProfile() {
+      document.getElementById("profileUsername").textContent = App.username;
+      document.getElementById("profileAvatar").textContent = App.username[0].toUpperCase();
+    }
+    function generateAIBio() {
+      const box = document.getElementById("aiProfileBox");
+      box.innerHTML = `<span class="spinner"></span> Syncing Node Bio Configurations...`;
+      box.style.display = "block";
+      setTimeout(() => {
+        const text = `Enterprise operational node configured to optimize decentralized agricultural processes inside the Raipur sector infrastructure grid arrays. Committed to modern SaaS deployments, neural diagnosis matrices, and algorithmic asset tracking.`;
+        document.getElementById("editBio").value = text;
+        box.innerHTML = `<div class="ai-result-label">◉ STRUCT PROFILE GENERATED</div>${text}`;
+        toast("Profile text models calculated cleanly");
+      }, 800);
+    }
+    function saveProfile() {
+      const name = App.username;
+      toast("Committed static execution variable updates into profile register layer");
+    }
+
+    /* ============================================================
+       AUTHENTICATION LAYER EMULATORS VALIDATORS
+    ============================================================ */
+    function switchAuth() {
+      const mode = document.getElementById("authMode").textContent;
+      if (mode === "login") {
+        document.getElementById("authMode").textContent = "register";
+        document.getElementById("authTitle").textContent = "Register Infrastructure Node";
+        document.getElementById("confirmGroup").style.display = "block";
+        document.getElementById("authSwitchText").textContent = "Node already registered?";
+        document.getElementById("authSwitchBtn").textContent = "Connect Existing Identity";
+      } else {
+        document.getElementById("authMode").textContent = "login";
+        document.getElementById("authTitle").textContent = "Welcome Back";
+        document.getElementById("confirmGroup").style.display = "none";
+        document.getElementById("authSwitchText").textContent = "New Node in Platform?";
+        document.getElementById("authSwitchBtn").textContent = "Register Node";
+      }
+    }
+
+    function handleAuth() {
+      const user = document.getElementById("authUsername").value.trim();
+      if(!user) {
+        const err = document.getElementById("authError");
+        err.textContent = "Identifier validation anomaly: Provide valid operational identification tags.";
+        err.style.display = "block";
+        return;
+      }
+      App.username = user;
+      document.getElementById("sidebarUserName").textContent = user;
+      document.getElementById("topbarUsername").textContent = user;
+      document.getElementById("sidebarAvatarText").textContent = user[0].toUpperCase();
+      document.getElementById("topbarAvatarText").textContent = user[0].toUpperCase();
+
+      document.getElementById("authPage").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      
+      // Initialize layout systems
+      setTheme("green");
+      navigate("dashboard");
+      toast(`Secure node handshake authenticated. welcome online, ${user}.`);
+    }
+
+    function handleLogout() {
+      document.getElementById("app").style.display = "none";
+      document.getElementById("authPage").style.display = "flex";
+      toast("Node sequence disconnected safely from infrastructure.", "info");
+    }
+
+    /* ── BASE HELPER UTILS INTERACTION STRUCTS ── */
+    function openModal(id) { document.getElementById(id).classList.add("open"); }
+    function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+
+    /* ── APPLICATION INITIALIZATION TRIGGER HOOKS ── */
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("[data-page]").forEach(link => {
+        link.addEventListener("click", () => navigate(link.dataset.page));
+      });
+      document.querySelectorAll(".theme-btn").forEach(b => {
+        b.addEventListener("click", () => setTheme(b.dataset.t));
+      });
+      renderSchemes();
+    });
+  </script>
 </body>
 </html>

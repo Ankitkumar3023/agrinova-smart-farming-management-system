@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AgriNova SaaS Engine v4.0</title>
+    <style>
+        body { margin: 0; font-family: 'Courier New', monospace; background: #030712; color: #9ca3af; }
+        .wrapper { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: #0b1329; border-right: 1px solid #1f2937; padding: 20px; }
+        .sidebar h2 { color: #10b981; font-size: 1.2rem; letter-spacing: 2px; }
+        .main-panel { flex: 1; padding: 30px; background: radial-gradient(circle at top right, #0b1528, #030712); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #1f2937; padding-bottom: 15px; }
+        .system-status { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; padding: 15px; color: #e5e7eb; border-radius: 4px; margin-bottom: 25px; }
+        .telemetry-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+        .metric-card { background: #0f172a; border: 1px solid #374151; padding: 20px; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.5); }
+        .metric-card h4 { margin: 0 0 10px 0; font-size: 0.8rem; color: #34d399; letter-spacing: 1px; }
+        .metric-card h2 { margin: 0; font-size: 1.8rem; color: #f3f4f6; }
+        .chart-container { background: #0f172a; border: 1px solid #374151; padding: 20px; border-radius: 6px; margin-bottom: 30px; }
+        .log-stream { background: #070d19; border-left: 3px solid #3b82f6; padding: 15px; border-radius: 0 4px 4px 0; }
+        .log-item { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 8px 0; border-bottom: 1px solid #1f2937; }
+        .log-item:last-child { border: none; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="sidebar">
+        <h2>-AGRINOVA AI</h2>
+        <p style="font-size: 0.8rem; color: #6b7280; margin-top: -10px;">Smart Agri Ecosystem</p>
+        <hr style="border-color: #1f2937; margin: 20px 0;">
+        <div style="font-size: 0.9rem;">
+            <p style="color: #f3f4f6;">👤 Lead Operator: <br><strong style="color: #3b82f6;">{{ operator_name }}</strong></p>
+            <p>● LIVE ENVIRONMENT</p>
+        </div>
+    </div>
+
+    <div class="main-panel">
+        <div class="header">
+            <div>
+                <span style="color: #6b7280;">AGRINOVA /</span> <strong style="color: #f3f4f6;">DASHBOARD</strong>
+            </div>
+            <div>🔍 Query cluster infrastructure...</div>
+        </div>
+
+        <div class="system-status">
+            🧬 <strong>SYSTEM TELEMETRY OPTIMAL</strong> — AgriNova SaaS Engine v4.0<br>
+            <span style="font-size: 0.85rem; color: #9ca3af;">Welcome back to your decentralized farm control system. Automated diagnostic neural models, active mandi trackers, and climate matrix parameters are loaded.</span>
+        </div>
+
+        <div class="telemetry-grid">
+            <div class="metric-card">
+                <h4>⬡ MANAGED FARM NODES</h4>
+                <h2>{{ total_farms }}</h2>
+                <small style="color: #6b7280;">Active clusters localized</small>
+            </div>
+            <div class="metric-card">
+                <h4>🌱 ACTIVE CROP MATRICES</h4>
+                <h2>{{ total_crops }}</h2>
+                <small style="color: #6b7280;">Monitoring structural yield</small>
+            </div>
+            <div class="metric-card">
+                <h4>💰 PROJECTED REVENUE FLOW</h4>
+                <h2>{{ revenue }}</h2>
+                <small style="color: #10b981;">+14.2% versus baseline target</small>
+            </div>
+            <div class="metric-card">
+                <h4>⚡ BIOMASS HEALTH RANGE</h4>
+                <h2>{{ health }}%</h2>
+                <small style="color: #3b82f6;">Data stream stabilized</small>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h4 style="color: #f3f4f6; margin-top:0;">DATA VISUALIZATION STACK</h4>
+            <p style="font-size:0.8rem; color:#6b7280; margin-top:-10px;">Annual Yield Matrix Optimization Output</p>
+            <canvas id="yieldMatrixChart" height="100"></canvas>
+        </div>
+
+        <div class="metric-card">
+            <h4 style="color: #f3f4f6; margin-top:0;">ENVIRONMENT EVENT LOGGER</h4>
+            <p style="font-size:0.8rem; color:#6b7280; margin-top:-10px;">Telemetry Audit Stream</p>
+            <div class="log-stream">
+                {% for log in logs %}
+                <div class="log-item">
+                    <span>⚙️ {{ log.message }}</span>
+                    <span style="color: #6b7280;">{{ log.timestamp_str }}</span>
+                </div>
+                {% empty %}
+                <div class="log-item"><span>No telemetry streams recorded yet.</span></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ctx = document.getElementById('yieldMatrixChart').getContext('2m');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: 'Yield Optimizer Stack',
+                data: {{ chart_data|safe }},
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                borderWidth: 2,
+                pointBackgroundColor: '#3b82f6',
+                tension: 0.3
+            }]
+        },
+        options: {
+            scales: {
+                y: { grid: { color: '#1f2937' }, ticks: { color: '#9ca3af' } },
+                x: { grid: { color: '#1f2937' }, ticks: { color: '#9ca3af' } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+</script>
+</body>
+</html>
